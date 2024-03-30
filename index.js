@@ -39,7 +39,7 @@ if (pinCode.pin === myPin) {
                     name: "sFcash",
                     type: "list",
                     message: "Please Select amount as mentioned below",
-                    choices: ["1000", "2000", "3000", "5000", "51000"],
+                    choices: ["1000", "2000", "3000", "5000"],
                 },
             ]);
             if (fastCash.sFcash > myBalance) {
