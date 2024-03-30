@@ -39,26 +39,28 @@ if (pinCode.pin === myPin) {
                     name: "sFcash",
                     type: "list",
                     message: "Please Select amount as mentioned below",
-                    choices: ["1000", "2000", "3000", "5000"],
+                    choices: ["1000", "2000", "3000", "5000", "51000"],
                 },
             ]);
-            myBalance -= fastCash.sFcash;
-            {
+            if (fastCash.sFcash > myBalance) {
+                console.log(chalk.red(`You have insufficient Balance`));
+            }
+            else if (myBalance -= fastCash.sFcash) {
                 console.log(chalk.green("You have sucessfully performed your transaction. Thank you!"));
-            }
-            let receiptFC = await inquirer.prompt([
-                {
-                    message: "Do you want to print the transaction receipt?",
-                    name: "rcpt",
-                    type: "list",
-                    choices: ["Yes", "No"],
-                },
-            ]);
-            if (receiptFC.rcpt === "Yes") {
-                console.log(chalk.green(`\n================================================\nAccount Holder:\t\t\t${myName}\nAcct. Number:\t\t\t${"123*****654"}\nTransaction Type:\t\t${opt.option}\nTransaction Amount: \t\t${fastCash.sFcash}\nYour Remaing Balance:\t\t${myBalance}\t\n================================================\n\t\n\tThanks for using ATM Service\t\t\n\n================================================\n`));
-            }
-            else if (receiptFC.rcpt === "No") {
-                console.log(chalk.yellow("Thanks for using ATM Service"));
+                let receiptFC = await inquirer.prompt([
+                    {
+                        message: "Do you want to print the transaction receipt?",
+                        name: "rcpt",
+                        type: "list",
+                        choices: ["Yes", "No"],
+                    },
+                ]);
+                if (receiptFC.rcpt === "Yes") {
+                    console.log(chalk.green(`\n================================================\nAccount Holder:\t\t\t${myName}\nAcct. Number:\t\t\t${"123*****654"}\nTransaction Type:\t\t${opt.option}\nTransaction Amount: \t\t${fastCash.sFcash}\nYour Remaing Balance:\t\t${myBalance}\t\n================================================\n\t\n\tThanks for using ATM Service\t\t\n\n================================================\n`));
+                }
+                else if (receiptFC.rcpt === "No") {
+                    console.log(chalk.yellow("Thanks for using ATM Service"));
+                }
             }
         }
         else if (famnt.amount === "Other Amount") {

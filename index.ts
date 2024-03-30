@@ -46,12 +46,15 @@ if (pinCode.pin === myPin) {
           choices: ["1000", "2000", "3000", "5000"],
         },
       ]);
-      myBalance -= fastCash.sFcash;
-      {
-        console.log(chalk.green(
-          "You have sucessfully performed your transaction. Thank you!"
-        ));
-      }
+      if (fastCash.sFcash > myBalance) {
+        console.log(chalk.red(`You have insufficient Balance`));
+      } else if (myBalance -=  fastCash.sFcash ) {
+        console.log(
+          chalk.green(
+            "You have sucessfully performed your transaction. Thank you!"
+          )
+        );
+      
       let receiptFC = await inquirer.prompt([
         {
           message: "Do you want to print the transaction receipt?",
@@ -61,16 +64,18 @@ if (pinCode.pin === myPin) {
         },
       ]);
       if (receiptFC.rcpt === "Yes") {
-        console.log(chalk.green(
-          `\n================================================\nAccount Holder:\t\t\t${myName}\nAcct. Number:\t\t\t${"123*****654"}\nTransaction Type:\t\t${
-            opt.option
-          }\nTransaction Amount: \t\t${
-            fastCash.sFcash
-          }\nYour Remaing Balance:\t\t${myBalance}\t\n================================================\n\t\n\tThanks for using ATM Service\t\t\n\n================================================\n`
-          ));
+        console.log(
+          chalk.green(
+            `\n================================================\nAccount Holder:\t\t\t${myName}\nAcct. Number:\t\t\t${"123*****654"}\nTransaction Type:\t\t${
+              opt.option
+            }\nTransaction Amount: \t\t${
+              fastCash.sFcash
+            }\nYour Remaing Balance:\t\t${myBalance}\t\n================================================\n\t\n\tThanks for using ATM Service\t\t\n\n================================================\n`
+          )
+        );
       } else if (receiptFC.rcpt === "No") {
         console.log(chalk.yellow("Thanks for using ATM Service"));
-      }
+      }}
     } else if (famnt.amount === "Other Amount") {
       let otherAmount = await inquirer.prompt([
         {
@@ -82,9 +87,11 @@ if (pinCode.pin === myPin) {
       if (otherAmount.otherAmnt > myBalance) {
         console.log(chalk.red("You have insufficient Balance"));
       } else if ((myBalance -= otherAmount.otherAmnt)) {
-        console.log(chalk.green(
-          "You have sucessfully performed your transaction. Thank you!"
-        ));
+        console.log(
+          chalk.green(
+            "You have sucessfully performed your transaction. Thank you!"
+          )
+        );
         let receiptFC = await inquirer.prompt([
           {
             message: "Do you want to print the transaction receipt?",
@@ -94,13 +101,15 @@ if (pinCode.pin === myPin) {
           },
         ]);
         if (receiptFC.rcpt === "Yes") {
-          console.log(chalk.green(
-            `\n================================================\nAccount Holder:\t\t\t${myName}\nAcct. Number:\t\t\t${"123*****654"}\nTransaction Type:\t\t${
-              opt.option
-            }\nTransaction Amount: \t\t${
-              otherAmount.otherAmnt
-            }\nYour Remaing Balance:\t\t${myBalance}\t\t\n================================================\n\t\n\tThanks for using ATM Service\t\t\n\n================================================\n`
-          ));
+          console.log(
+            chalk.green(
+              `\n================================================\nAccount Holder:\t\t\t${myName}\nAcct. Number:\t\t\t${"123*****654"}\nTransaction Type:\t\t${
+                opt.option
+              }\nTransaction Amount: \t\t${
+                otherAmount.otherAmnt
+              }\nYour Remaing Balance:\t\t${myBalance}\t\t\n================================================\n\t\n\tThanks for using ATM Service\t\t\n\n================================================\n`
+            )
+          );
         } else if (receiptFC.rcpt === "No") {
           console.log(chalk.yellow("Thanks for using ATM Service"));
         }
@@ -108,7 +117,9 @@ if (pinCode.pin === myPin) {
     }
   }
 } else if (pinCode.pin !== myPin) {
-  console.log(chalk.red(
-    "You have entered the wrong PIN. Please run the command again (npx h-cli-atm-mar28) and Enter the correct PIN. Thank you!"
-  ));
+  console.log(
+    chalk.red(
+      "You have entered the wrong PIN. Please run the command again (npx h-cli-atm-mar28) and Enter the correct PIN. Thank you!"
+    )
+  );
 }
